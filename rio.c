@@ -50,7 +50,7 @@ const char* lookup_device_name(raw_device_id_t rdi)
 	return name;
 }
 
-void set_device_handler(raw_device_id_t device)
+static void set_device_handler(raw_device_id_t device)
 {
 	switch(device.ID)
 	{
@@ -65,7 +65,7 @@ void set_device_handler(raw_device_id_t device)
 	}
 }
 
-void set_packet(raw_device_request_t* packet, raw_device_id_t device, size_t offset, size_t size)
+static void set_packet(raw_device_request_t* packet, raw_device_id_t device, size_t offset, size_t size)
 {
 	packet->size = size;
 	packet->offset = offset;
