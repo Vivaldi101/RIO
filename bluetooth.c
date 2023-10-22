@@ -1,26 +1,42 @@
 #include "rio.h"
 #include <stdio.h>
 
-static void read_bluetooth(raw_device_id_t instance, raw_device_request_t *packet, raw_device_result_t *result)
+static void read_bluetooth(raw_device_id_t* device, raw_device_request_t *packet, raw_device_result_t *result)
 {
-	printf("Reading %u bytes from device: %s\n", packet->size, lookup_device_name(instance)); 
+	printf("Reading %zu bytes from device: %s at offset: %zu\n", packet->size, lookup_device_name(device), packet->offset); 
+
+	const size_t size = packet->size;
+	char* begin = (char*)packet->buffer + packet->offset;
+
+	for (size_t i = 0; i < size; ++i)
+	{
+		begin[i] = 'R';
+	}
 }
 
-static void write_bluetooth(raw_device_id_t instance, raw_device_request_t *packet, raw_device_result_t *result)
+static void write_bluetooth(raw_device_id_t* device, raw_device_request_t *packet, raw_device_result_t *result)
 {
-	printf("Writing %u bytes to device: %s\n", packet->size, lookup_device_name(instance)); 
+	printf("Writing %zu bytes to device: %s at offset: %zu\n", packet->size, lookup_device_name(device), packet->offset); 
+
+	const size_t size = packet->size;
+	char* begin = (char*)packet->buffer + packet->offset;
+
+	for (size_t i = 0; i < size; ++i)
+	{
+		begin[i] = 'W';
+	}
 }
 
-void bluetooth_handler(raw_device_id_t instance, raw_device_request_t *packet, raw_device_result_t *result)
+void bluetooth_handler(raw_device_id_t* device, raw_device_request_t *packet, raw_device_result_t *result)
 {
 	switch(packet->op)
 	{
 		case RIO_read:
-			read_bluetooth(instance, packet, result);
+			read_bluetooth(device, packet, result);
 			result->error_code = 1; break;
 		
 		case RIO_write:
-			write_bluetooth(instance, packet, result);
+			write_bluetooth(device, packet, result);
 			result->error_code = 1; break;
 		
 		case RIO_get_name:
