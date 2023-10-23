@@ -10,8 +10,9 @@ static void read_bluetooth(raw_device_id_t* device, raw_device_request_t *packet
 
 	for (size_t i = 0; i < size; ++i)
 	{
-		begin[i] = 'R';
+		putc(begin[i], stdout);
 	}
+	puts("\n");
 }
 
 static void write_bluetooth(raw_device_id_t* device, raw_device_request_t *packet, raw_device_result_t *result)
