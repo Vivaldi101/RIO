@@ -8,7 +8,7 @@ typedef struct raw_device_t
 	raw_device_handler *handler;
 } raw_device_t;
 
-static void null_handler(raw_device_id_t* device, raw_device_request_t *packet, raw_device_result_t *result)
+static void null_handler(raw_device_request_t *packet, raw_device_result_t *result)
 {
 }
 
@@ -36,20 +36,20 @@ raw_device_id_t lookup_device_id(device_id id)
 	return result;
 }
 
-static raw_device_result_t jump_to_device_handler(raw_device_id_t* device, raw_device_request_t* packet)
+static raw_device_result_t jump_to_device_handler(device_id id, raw_device_request_t* packet)
 {
 	raw_device_result_t result = {0};
 
-	switch(device->ID)
+	switch(id)
 	{
 	case Device_usb: 
-		usb_handler(device, packet, &result);
+		usb_handler(packet, &result);
 		break;
 	case Device_bluetooth: 
-		bluetooth_handler(device, packet, &result);
+		bluetooth_handler(packet, &result);
 		break;
 	default:
-		null_handler(device, packet, &result);
+		null_handler(packet, &result);
 		break;
 	}
 
@@ -89,7 +89,7 @@ void read_device(raw_device_id_t* device, size_t offset, size_t size, size_t max
 	}
 	raw_device_request_t packet = make_packet(offset, size, max_size, buffer, RIO_read);
 
-	raw_device_result_t result = jump_to_device_handler(device, &packet);
+	raw_device_result_t result = jump_to_device_handler(device->ID, &packet);
 
 	// Do something with result...
 
@@ -112,7 +112,7 @@ void write_device(raw_device_id_t* device, size_t offset, size_t size, size_t ma
 	}
 	raw_device_request_t packet = make_packet(offset, size, max_size, buffer, RIO_write);
 
-	raw_device_result_t result = jump_to_device_handler(device, &packet);
+	raw_device_result_t result = jump_to_device_handler(device->ID, &packet);
 
 	// Do something with result...
 

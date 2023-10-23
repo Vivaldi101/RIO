@@ -58,7 +58,7 @@ raw_device_id_t lookup_device_id(device_id id);
 
 void read_device(raw_device_id_t* device, size_t offset, size_t size, size_t max_size, char* buffer);
 void write_device(raw_device_id_t* device, size_t offset, size_t size, size_t max_size, char* buffer);
-typedef void raw_device_handler(raw_device_id_t* device, raw_device_request_t *packet, raw_device_result_t *result);
+typedef void raw_device_handler(raw_device_request_t *packet, raw_device_result_t *result);
 
 // Usb driver handler.
 raw_device_handler usb_handler;

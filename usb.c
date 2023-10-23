@@ -1,7 +1,9 @@
 #include "rio.h"
-#include <stdio.h>
 
-static void read_usb(raw_device_id_t* device, raw_device_request_t *packet, raw_device_result_t *result)
+#include <stdio.h>
+#include <assert.h>
+
+static void read_usb(raw_device_request_t *packet, raw_device_result_t *result)
 {
 	printf("Reading %zu bytes from usb device at offset: %zu\n", packet->size, packet->offset); 
 
@@ -15,7 +17,7 @@ static void read_usb(raw_device_id_t* device, raw_device_request_t *packet, raw_
 	puts("\n");
 }
 
-static void write_usb(raw_device_id_t* device, raw_device_request_t *packet, raw_device_result_t *result)
+static void write_usb(raw_device_request_t *packet, raw_device_result_t *result)
 {
 	printf("Writing %zu bytes to usb device at offset: %zu\n", packet->size, packet->offset); 
 
@@ -28,16 +30,19 @@ static void write_usb(raw_device_id_t* device, raw_device_request_t *packet, raw
 	}
 }
 
-void usb_handler(raw_device_id_t* device, raw_device_request_t *packet, raw_device_result_t *result)
+void usb_handler(raw_device_request_t *packet, raw_device_result_t *result)
 {
+	assert(packet);
+	assert(result);
+
 	switch(packet->op)
 	{
 		case RIO_read:
-			read_usb(device, packet, result);
+			read_usb(packet, result);
 			result->error_code = 1; break;
 		
 		case RIO_write:
-			write_usb(device, packet, result);
+			write_usb(packet, result);
 			result->error_code = 1; break;
 		
 		case RIO_get_name:

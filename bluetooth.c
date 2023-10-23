@@ -1,7 +1,9 @@
 #include "rio.h"
 #include <stdio.h>
 
-static void read_bluetooth(raw_device_id_t* device, raw_device_request_t *packet, raw_device_result_t *result)
+#include <assert.h>
+
+static void read_bluetooth(raw_device_request_t *packet, raw_device_result_t *result)
 {
 	printf("Reading %zu bytes from bluetooth device at offset: %zu\n", packet->size, packet->offset); 
 
@@ -15,7 +17,7 @@ static void read_bluetooth(raw_device_id_t* device, raw_device_request_t *packet
 	puts("\n");
 }
 
-static void write_bluetooth(raw_device_id_t* device, raw_device_request_t *packet, raw_device_result_t *result)
+static void write_bluetooth(raw_device_request_t *packet, raw_device_result_t *result)
 {
 	printf("Writing %zu bytes to bluetooth device at offset: %zu\n", packet->size, packet->offset); 
 
@@ -28,16 +30,19 @@ static void write_bluetooth(raw_device_id_t* device, raw_device_request_t *packe
 	}
 }
 
-void bluetooth_handler(raw_device_id_t* device, raw_device_request_t *packet, raw_device_result_t *result)
+void bluetooth_handler(raw_device_request_t *packet, raw_device_result_t *result)
 {
+	assert(packet);
+	assert(result);
+
 	switch(packet->op)
 	{
 		case RIO_read:
-			read_bluetooth(device, packet, result);
+			read_bluetooth(packet, result);
 			result->error_code = 1; break;
 		
 		case RIO_write:
-			write_bluetooth(device, packet, result);
+			write_bluetooth(packet, result);
 			result->error_code = 1; break;
 		
 		case RIO_get_name:
