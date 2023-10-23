@@ -3,7 +3,7 @@
 
 static void read_usb(raw_device_id_t* device, raw_device_request_t *packet, raw_device_result_t *result)
 {
-	printf("Reading %zu bytes from device: %s at offset: %zu\n", packet->size, lookup_device_name(device), packet->offset); 
+	printf("Reading %zu bytes from usb device at offset: %zu\n", packet->size, packet->offset); 
 
 	const size_t size = packet->size;
 	char* begin = (char*)packet->buffer + packet->offset;
@@ -17,7 +17,7 @@ static void read_usb(raw_device_id_t* device, raw_device_request_t *packet, raw_
 
 static void write_usb(raw_device_id_t* device, raw_device_request_t *packet, raw_device_result_t *result)
 {
-	printf("Writing %zu bytes to device: %s at offset: %zu\n", packet->size, lookup_device_name(device), packet->offset); 
+	printf("Writing %zu bytes to usb device at offset: %zu\n", packet->size, packet->offset); 
 
 	const size_t size = packet->size;
 	char* begin = (char*)packet->buffer + packet->offset;

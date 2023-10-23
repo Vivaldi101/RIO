@@ -36,30 +36,6 @@ raw_device_id_t lookup_device_id(device_id id)
 	return result;
 }
 
-const char* lookup_device_name(raw_device_id_t* device)
-{
-	assert(device->ID != Device_invalid);
-
-	const char* result = NULL;
-
-	switch(device->ID)
-	{
-	case Device_usb:
-		result = "usb";
-		break;
-	case Device_bluetooth:
-		result = "bluetooth";
-		break;
-	default:
-		assert(0);
-		break;
-	}
-
-	assert(result);
-
-	return result;
-}
-
 static raw_device_result_t jump_to_device_handler(raw_device_id_t* device, raw_device_request_t* packet)
 {
 	raw_device_result_t result = {0};
