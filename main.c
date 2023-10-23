@@ -12,7 +12,7 @@ int main()
 	const size_t size = 10;
 	const size_t offset = 0;
 
-	for (size_t i = 0; i < 5; ++i)
+	//for (size_t i = 0; i < 5; ++i)
 	{
 		write_device(&id_bluetooth, offset + 0, size, array_count(bluetooth_buffer), bluetooth_buffer);
 		read_device(&id_bluetooth, offset + 0, size, array_count(bluetooth_buffer), bluetooth_buffer);
