@@ -23,8 +23,7 @@ raw_device_id_t lookup_device_id(device_id id)
 		result.ID = Device_bluetooth;
 		break;
 	default:
-		assert(0);
-		break;
+		invalid;
 	}
 
 	assert(result.ID != Device_invalid);
@@ -46,26 +45,8 @@ static void jump_to_device_handler(device_id id, raw_device_request_t* packet)
 		bluetooth_handler(packet);
 		break;
 	default:
-		assert(0);
-		break;
+		invalid;
 	}
-}
-
-static raw_device_request_t make_packet(size_t offset, size_t size, size_t max_size, char* buffer, raw_device_operation_t op)
-{
-	assert(offset < max_size);
-	assert(size <= max_size - offset);
-	assert(buffer);
-
-	raw_device_request_t packet = 
-	{
-		.buffer = buffer, 
-		.offset = offset, 
-		.op = op, 
-		.size = size
-	};
-
-	return packet;
 }
 
 void read_device(raw_device_id_t* device, size_t offset, size_t size, size_t max_size, char* buffer)
@@ -82,7 +63,7 @@ void read_device(raw_device_id_t* device, size_t offset, size_t size, size_t max
 	{
 		return;
 	}
-	raw_device_request_t packet = make_packet(offset, size, max_size, buffer, RIO_read);
+	raw_device_request_t packet = {.buffer = buffer, .offset = offset, .op = RIO_read, .size = size};
 
 	jump_to_device_handler(device->ID, &packet);
 }
@@ -101,7 +82,7 @@ void write_device(raw_device_id_t* device, size_t offset, size_t size, size_t ma
 	{
 		return;
 	}
-	raw_device_request_t packet = make_packet(offset, size, max_size, buffer, RIO_write);
+	raw_device_request_t packet = {.buffer = buffer, .offset = offset, .op = RIO_write, .size = size};
 
 	jump_to_device_handler(device->ID, &packet);
 }

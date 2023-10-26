@@ -3,12 +3,14 @@
 
 #include <stdlib.h>
 
+// Move this into common header
 #define halt abort();
-
 #define pre(a) if(!(a)) halt
 #define post(a) if(!(a)) halt
 #define invariant(a) if(!(a)) halt
 #define implies(a, b) (!(a) || (b))
+
+#define invalid halt;
 
 typedef unsigned int u32;
 typedef unsigned int u32;
