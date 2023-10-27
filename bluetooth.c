@@ -40,12 +40,11 @@ void bluetooth_handler(raw_device_request_t *packet)
 	{
 		case RIO_read:
 			read_bluetooth(packet);
+			break;
 		
 		case RIO_write:
 			write_bluetooth(packet);
-		
-		case RIO_get_name:
-			puts("Getting device name..."); 
+			break;
 		
 		default: break;
 	}
