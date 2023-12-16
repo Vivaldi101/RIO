@@ -12,6 +12,8 @@
 
 #define invalid halt;
 
+#define switch_label break; case
+
 typedef unsigned int u32;
 typedef unsigned int u32;
 typedef unsigned long long u64;

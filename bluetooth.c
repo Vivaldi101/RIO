@@ -13,7 +13,7 @@ static void read_bluetooth(raw_device_request_t *packet)
 
 	for (size_t i = 0; i < size; ++i)
 	{
-		putc(begin[i], stdout);
+		//putc(begin[i], stdout);
 	}
 	puts("\n");
 }
@@ -38,15 +38,10 @@ void bluetooth_handler(raw_device_request_t *packet)
 
 	switch(packet->op)
 	{
-		case RIO_read:
+		switch_label RIO_read:
 			read_bluetooth(packet);
-			break;
-		
-		case RIO_write:
+		switch_label RIO_write:
 			write_bluetooth(packet);
-			break;
-		
-		default: break;
 	}
 }
 
