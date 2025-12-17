@@ -13,6 +13,7 @@
 #define invalid halt;
 
 #define switch_label break; case
+#define array_count(a) sizeof(a) / sizeof(*a)
 
 typedef unsigned int u32;
 typedef unsigned int u32;
@@ -60,14 +61,19 @@ typedef struct raw_device_result_t
 
 raw_device_id_t lookup_device_id(device_id id);
 
-void read_device(raw_device_id_t* device, size_t offset, size_t size, size_t max_size, char* buffer);
-void write_device(raw_device_id_t* device, size_t offset, size_t size, size_t max_size, char* buffer);
+void read_devices(size_t offset, size_t size, size_t max_size, char* buffer);
+void write_devices(size_t offset, size_t size, size_t max_size, char* buffer);
 typedef void raw_device_handler(raw_device_request_t *packet);
 
 // Usb driver handler.
 raw_device_handler usb_handler;
-
 // Bluetooth driver handler.
 raw_device_handler bluetooth_handler;
+// All the devices
+static raw_device_id_t device_ids[] = 
+{
+	Device_usb,
+	Device_bluetooth
+}; 
 
 #endif

@@ -12,10 +12,7 @@ static void read_usb(raw_device_request_t *packet)
 	char* begin = (char*)packet->buffer + packet->offset;
 
 	for (size_t i = 0; i < size; ++i)
-	{
-		//putc(begin[i], stdout);
-	}
-	puts("\n");
+		putc(begin[i], stdout);
 }
 
 static void write_usb(raw_device_request_t *packet)
@@ -27,9 +24,9 @@ static void write_usb(raw_device_request_t *packet)
 	char* begin = (char*)packet->buffer + packet->offset;
 
 	for (size_t i = 0; i < size; ++i)
-	{
-		begin[i] = 'W';
-	}
+		begin[i] = 'U';
+
+	begin[size - 1] = '\n';
 }
 
 void usb_handler(raw_device_request_t *packet)
