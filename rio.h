@@ -39,13 +39,16 @@ typedef enum device_id
 	#undef X
 } device_id;
 
-__declspec(align(64))	// Align to cache line.
+// Align to cache line.
+#define cache_line_size 64
+
+__declspec(align(cache_line_size))	
 typedef struct raw_device_id_t
 {
 	device_id ID;
 } raw_device_id_t;
 
-__declspec(align(64))	// Align to cache line.
+__declspec(align(cache_line_size))
 typedef struct raw_device_request_t
 {
 	size_t offset;
@@ -55,7 +58,7 @@ typedef struct raw_device_request_t
 	raw_device_operation_t op;
 } raw_device_request_t;
 
-__declspec(align(64))	// Align to cache line.
+__declspec(align(cache_line_size))
 typedef struct raw_device_result_t
 {
 	u32 error_code;
