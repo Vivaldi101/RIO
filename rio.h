@@ -49,6 +49,7 @@ typedef struct raw_device_request_t
 {
 	size_t offset;
 	size_t size;
+	size_t max_size;
 	void *buffer;
 	raw_device_operation_t op;
 } raw_device_request_t;
