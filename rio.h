@@ -33,9 +33,10 @@ typedef enum raw_device_operation_t
 
 typedef enum device_id
 {
-	Device_invalid,
-	Device_usb,
-	Device_bluetooth
+	#define X(name) name,
+   X(Device_invalid)
+	#include "device_list.def"
+	#undef X
 } device_id;
 
 __declspec(align(64))	// Align to cache line.
@@ -71,10 +72,11 @@ raw_device_handler usb_handler;
 // Bluetooth driver handler.
 raw_device_handler bluetooth_handler;
 // All the devices
-static raw_device_id_t device_ids[] = 
+static raw_device_id_t device_ids[] =
 {
-	Device_usb,
-	Device_bluetooth
-}; 
+#define X(name) name,
+#include "device_list.def"
+#undef X
+};
 
 #endif

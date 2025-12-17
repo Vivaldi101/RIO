@@ -1,0 +1,3 @@
+// device_list.def
+X(Device_usb)
+X(Device_bluetooth)
